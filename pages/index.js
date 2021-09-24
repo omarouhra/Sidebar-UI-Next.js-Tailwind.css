@@ -2,8 +2,15 @@ import Head from "next/head";
 import { HeartIcon } from "@heroicons/react/solid";
 import NavItem from "../components/NavItem";
 import { navigationData } from "../data/NavigationData";
+import { useState } from "react";
 
 export default function Home() {
+  const [isActive, setIsActive] = useState(1);
+
+  const turnToActive = () => {
+    setIsActive(navigationData.id);
+    console.log(isActive);
+  };
   return (
     <div className='flex flex-col items-start p-5'>
       <Head>
@@ -16,13 +23,15 @@ export default function Home() {
       </div>
       <main className='flex flex-col space-y-5 '>
         {navigationData.map(({ id, icon, title }) => (
-          <NavItem
-            key={id}
-            index={id}
-            icon={icon}
-            title={title}
-            onclick={() => console.log({ id })}
-          />
+          <section
+            className={
+              isActive === id
+                ? "bg-blue-400 transition text-white rounded-md duration-200  "
+                : "bg-white text-black transition  duration-200 "
+            }
+            onClick={() => setIsActive(id)}>
+            <NavItem key={id} index={id} icon={icon} title={title} />
+          </section>
         ))}
       </main>
     </div>
